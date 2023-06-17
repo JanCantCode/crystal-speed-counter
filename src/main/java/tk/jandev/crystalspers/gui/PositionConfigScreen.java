@@ -22,14 +22,23 @@ public class PositionConfigScreen extends Screen {
 
     public void init() {
 
-        ButtonWidget closeButton = new ButtonWidget((int) (this.width / 2.1), (int) (this.height / 1.1), 40, 20, Text.of("done"), button -> {
+        /*ButtonWidget closeButton = new ButtonWidget((int) (this.width / 2.1), (int) (this.height / 1.1), 40, 20, Text.of("done"), button -> {
             try {
                 ConfigManager.safe();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
             mc.setScreen(null);
-        });
+        });*/
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("done"), button -> {
+            try {
+                ConfigManager.safe();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            mc.setScreen(null);
+        }).dimensions((int) (this.width / 2.1), (int) (this.height / 1.1), 40, 20).build();
+        
         buttonPosX = this.width/2.1;
         buttonPosY = this.height/1.1;
         this.addDrawableChild(closeButton);

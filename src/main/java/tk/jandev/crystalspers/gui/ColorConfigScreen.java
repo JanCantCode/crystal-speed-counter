@@ -22,8 +22,8 @@ public class ColorConfigScreen extends Screen {
 
         TextFieldWidget colorWidget = new TextFieldWidget(mc.textRenderer, this.width / 2, this.height / 2, 70, 20, Text.of("test"));
         this.addDrawableChild(colorWidget);
-
-        ButtonWidget done = new ButtonWidget(this.width/2, (int) (this.height/1.6), 40, 20, Text.of("Done"), new ButtonWidget.PressAction() {
+        
+        ButtonWidget done = ButtonWidget.builder(Text.of("Done"), new ButtonWidget.PressAction() {
             @Override
             public void onPress(ButtonWidget button) {
                 String content = colorWidget.getText();
@@ -44,15 +44,12 @@ public class ColorConfigScreen extends Screen {
                     throw new RuntimeException(e);
                 }
                 return;
-
-
             }
-        });
+        }).dimensions(this.width / 2, (int) (this.height / 1.1), 40, 20).build();
 
         this.addDrawableChild(done);
 
-        ButtonWidget closeButton = new ButtonWidget(this.width / 2- 15, (int) (this.height / 1.1), 30, 20, Text.of("exit"), button -> mc.setScreen(null));
-
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("exit"), button -> mc.setScreen(null)).dimensions(this.width / 2 - 15, (int) (this.height / 1.1), 30, 20).build();
         this.addDrawableChild(closeButton);
     }
 
@@ -73,7 +70,7 @@ public class ColorConfigScreen extends Screen {
 
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(0);
+        this.renderBackgroundTexture(matrices);
         this.textRenderer.draw(matrices, "color", (float) (this.width/2.35), (float) (this.height/1.88), 259324);
         super.render(matrices, mouseX, mouseY, delta);
     }
