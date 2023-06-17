@@ -19,28 +19,28 @@ public class ConfigScreen extends Screen {
     protected void init() {
         // Position Option Button
         
-        ButtonWidget posWidget = ButtonWidget.builder(Text.of("position"), button -> {
+        ButtonWidget posWidget = ButtonWidget.builder(Text.of("Edit Position"), button -> {
             mc.setScreen(new PositionConfigScreen(Text.of("position")));
-        }).dimensions(this.width / 2 - 25, this.height / 2, 50, 20).build();
+        }).dimensions(this.width / 2 - 63, this.height / 2, 125, 20).build();
         this.addDrawableChild(posWidget);
         
         // Color Option Button
         
-        ButtonWidget colorWidget = ButtonWidget.builder(Text.of("color"), button -> {
+        ButtonWidget colorWidget = ButtonWidget.builder(Text.of("Edit Color"), button -> {
             mc.setScreen(new ColorConfigScreen(Text.of("color")));
-        }).dimensions(this.width / 2 - 15, this.height / 2 - 30, 35, 20).build();
+        }).dimensions(this.width / 2 - 63, this.height / 2 - 30, 125, 20).build();
         this.addDrawableChild(colorWidget);
 
         // Exit button
         
-        ButtonWidget closeButton = ButtonWidget.builder(Text.of("exit"), button -> {
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("Exit"), button -> {
             mc.setScreen(null);
             try {
                 ConfigManager.safe();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }).dimensions(this.width / 2 - 15, (int) (this.height / 1.1), 30, 20).build();
+        }).dimensions(this.width / 2 - 63, (int) (this.height / 1.1), 125, 20).build();
 
         this.addDrawableChild(closeButton);
     }

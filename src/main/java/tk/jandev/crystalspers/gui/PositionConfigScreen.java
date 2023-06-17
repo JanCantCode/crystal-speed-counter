@@ -30,14 +30,14 @@ public class PositionConfigScreen extends Screen {
             }
             mc.setScreen(null);
         });*/
-        ButtonWidget closeButton = ButtonWidget.builder(Text.of("done"), button -> {
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("Done"), button -> {
             try {
                 ConfigManager.safe();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            mc.setScreen(null);
-        }).dimensions((int) (this.width / 2.1), (int) (this.height / 1.1), 40, 20).build();
+            mc.setScreen(new ConfigScreen(Text.of("config")));
+        }).dimensions(this.width / 2 - 63, (int) (this.height / 1.1), 125, 20).build();
         
         buttonPosX = this.width/2.1;
         buttonPosY = this.height/1.1;
@@ -64,7 +64,7 @@ public class PositionConfigScreen extends Screen {
         if (!super.mouseClicked(mouseX, mouseY, button)) {
             ConfigManager.setX((int) mouseX-30);
             ConfigManager.setY((int) mouseY);
-            System.out.println("updated to "+ConfigManager.getX()+" shall be "+(mouseX-30));
+            System.out.println("updated to " + ConfigManager.getX() + " shall be "+(mouseX-30));
 
             try {
                 ConfigManager.safe();
