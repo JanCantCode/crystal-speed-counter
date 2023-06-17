@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "crystalspers",
   "version": "${version}",
-  "name": "Crystal-Counter",
+  "name": "Crystal Counter",
   "description": "",
   "authors": [],
   "contact": {},
@@ -21,7 +21,7 @@
     "crystalspers.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.14",
+    "fabricloader": ">=0.14.21",
     "fabric": "*",
     "minecraft": "1.19.4"
   }
