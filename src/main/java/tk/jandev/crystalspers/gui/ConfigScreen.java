@@ -7,6 +7,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import tk.jandev.crystalspers.config.ConfigManager;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ConfigScreen extends Screen {
@@ -16,24 +17,30 @@ public class ConfigScreen extends Screen {
     }
 
     protected void init() {
-        ButtonWidget posWidget = new ButtonWidget(this.width / 2-25, this.height / 2, 50, 20, Text.of("position"), button -> {
+        // Position Option Button
+        
+        ButtonWidget posWidget = ButtonWidget.builder(Text.of("Edit Position"), button -> {
             mc.setScreen(new PositionConfigScreen(Text.of("position")));
-        });
+        }).dimensions(this.width / 2 - 63, this.height / 2, 125, 20).build();
         this.addDrawableChild(posWidget);
-
-        ButtonWidget colorWidget = new ButtonWidget(this.width / 2-15, (int) (this.height / 2-30), 35, 20, Text.of("color"), button -> {
+        
+        // Color Option Button
+        
+        ButtonWidget colorWidget = ButtonWidget.builder(Text.of("Edit Color"), button -> {
             mc.setScreen(new ColorConfigScreen(Text.of("color")));
-        });
+        }).dimensions(this.width / 2 - 63, this.height / 2 - 30, 125, 20).build();
         this.addDrawableChild(colorWidget);
 
-        ButtonWidget closeButton = new ButtonWidget(this.width / 2- 15, (int) (this.height / 1.1), 30, 20, Text.of("exit"), button -> {
+        // Exit button
+        
+        ButtonWidget closeButton = ButtonWidget.builder(Text.of("Exit"), button -> {
             mc.setScreen(null);
             try {
                 ConfigManager.safe();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        });
+        }).dimensions(this.width / 2 - 63, (int) (this.height / 1.1), 125, 20).build();
 
         this.addDrawableChild(closeButton);
     }
@@ -41,7 +48,7 @@ public class ConfigScreen extends Screen {
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         mc.textRenderer.draw(matrices, "Crystal Per Second settings", (float) (this.width/2), (float) 20, 0x43ff64ff);
-        this.renderBackgroundTexture(0);
+        this.renderBackgroundTexture(matrices);
         super.render(matrices, mouseX, mouseY, delta);
     }
 }
