@@ -8,10 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CrystalTracker {
-    private final MinecraftClient mc;
-    private ArrayList<Double> crystalMap = new ArrayList<>();
-    public CrystalTracker(MinecraftClient mc1) {
-        this.mc = mc1;
+    private final ArrayList<Double> crystalMap = new ArrayList<>();
+    public CrystalTracker(MinecraftClient mc) {
     }
 
 

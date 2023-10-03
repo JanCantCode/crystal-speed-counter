@@ -15,6 +15,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.EndCrystalEntity;
 import net.minecraft.entity.mob.MagmaCubeEntity;
 import net.minecraft.entity.mob.SlimeEntity;
@@ -31,16 +32,18 @@ import tk.jandev.crystalspers.tracker.CrystalTracker;
 import tk.jandev.crystalspers.world.Ticker;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class CrystalspersClient implements ClientModInitializer {
     private static boolean enabled = true;
+    List<Entity> alreadyAttacked = new ArrayList<Entity>();
     @Override
     public void onInitializeClient() {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         CrystalTracker tracker = new CrystalTracker(mc);
-
 
         try {
             ConfigManager.load();
@@ -50,10 +53,9 @@ public class CrystalspersClient implements ClientModInitializer {
         }
 
 
-
-
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
-            if (((entity instanceof EndCrystalEntity) || (entity instanceof MagmaCubeEntity) || (entity instanceof SlimeEntity)) && world.isClient) {
+            if (((entity instanceof EndCrystalEntity) || (entity instanceof SlimeEntity)) && !alreadyAttacked.contains(entity)) {
+                alreadyAttacked.add(entity);
                 tracker.recordAttack(Ticker.getTime());
             }
             return ActionResult.PASS;
