@@ -34,12 +34,12 @@ import java.io.IOException;
 
 @Environment(EnvType.CLIENT)
 public class CrystalspersClient implements ClientModInitializer {
+    private static boolean enabled = true;
     @Override
     public void onInitializeClient() {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         CrystalTracker tracker = new CrystalTracker(mc);
-        Ticker ticker = new Ticker();
 
 
         try {
@@ -54,27 +54,31 @@ public class CrystalspersClient implements ClientModInitializer {
 
         AttackEntityCallback.EVENT.register((player, world, hand, entity, hitResult) -> {
             if (((entity instanceof EndCrystalEntity) || (entity instanceof MagmaCubeEntity) || (entity instanceof SlimeEntity)) && world.isClient) {
-                tracker.recordAttack(ticker.getTime());
+                tracker.recordAttack(Ticker.getTime());
             }
             return ActionResult.PASS;
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            ticker.tick();
             if (mc.player==null)return; // is this ugly? yeah. did I ask? nahhh
+            Ticker.tick();
         });
 
-        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("config").executes(context -> {
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("counterconfig").executes(context -> {
             mc.send(() -> mc.setScreen(new ConfigScreen(Text.of("config"))));
             return 1;
         })));
 
-        HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
-
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
+            if (!enabled) return;
             //String.valueOf(tracker.getAttacksAfter(ticker.getTime()-20))
-            mc.textRenderer.draw(matrices, String.valueOf(tracker.getAttacksAfter(ticker.getTime()-20)), ConfigManager.getX()+28, ConfigManager.getY(), ConfigManager.getCounterColor());
+            drawContext.drawText(mc.textRenderer, String.valueOf(tracker.getAttacksAfter(Ticker.getTime()-20)), (int) ConfigManager.getX()+28, (int) ConfigManager.getY(), (int) ConfigManager.getCounterColor(), true);
         });
 
-
+        ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("togglecounter").executes(context -> {
+            enabled = !enabled;
+            context.getSource().sendFeedback(Text.of("§7Toggled Crystal Speed Counter "+(enabled ? "§aon" : "§coff")));
+            return 1;
+        })));
     }
 }

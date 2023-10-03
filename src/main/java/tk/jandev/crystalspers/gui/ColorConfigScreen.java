@@ -1,6 +1,7 @@
 package tk.jandev.crystalspers.gui;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -66,9 +67,9 @@ public class ColorConfigScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackgroundTexture(matrices);
-        this.textRenderer.draw(matrices, "Color: ", (float) (this.width / 2 - 50), (float) (this.height / 1.88 + 3), 259324);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackgroundTexture(context);
+        context.drawText(this.textRenderer, "Color: ", (this.width / 2 - 50), (int) (this.height / 1.88 + 3), 259324, true);
+        super.render(context, mouseX, mouseY, delta);
     }
 }

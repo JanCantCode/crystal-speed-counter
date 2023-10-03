@@ -1,6 +1,7 @@
 package tk.jandev.crystalspers.gui;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -8,6 +9,7 @@ import net.minecraft.text.Text;
 import tk.jandev.crystalspers.config.ConfigManager;
 
 import java.awt.*;
+import java.awt.image.renderable.RenderContext;
 import java.io.IOException;
 
 public class ConfigScreen extends Screen {
@@ -46,9 +48,9 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        mc.textRenderer.draw(matrices, "Crystal Per Second settings", (float) (this.width/2), (float) 20, 0x43ff64ff);
-        this.renderBackgroundTexture(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        context.drawText(mc.textRenderer, "Crystal Per Second settings", (int) (this.width / 2), 20, 0x43ff64ff, true);
+        this.renderBackgroundTexture(context);
+        super.render(context, mouseX, mouseY, delta);
     }
 }

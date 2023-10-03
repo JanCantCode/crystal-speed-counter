@@ -1,6 +1,7 @@
 package tk.jandev.crystalspers.gui;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -45,16 +46,17 @@ public class PositionConfigScreen extends Screen {
 
     }
 
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        this.textRenderer.draw(matrices, "5 crystals/s", mouseX-30, mouseY, ConfigManager.getCounterColor());
-        this.textRenderer.draw(matrices, "5 crystals/s", ConfigManager.getX(), ConfigManager.getY(), ConfigManager.getCounterColor()+100000);
-
-        this.drawHorizontalLine(matrices, 0, this.width, mouseY, Color.GREEN.getRGB());
-        this.drawVerticalLine(matrices, mouseX, 0, this.height, Color.GREEN.getRGB());
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        this.renderBackground(context);
+        context.drawText(this.textRenderer, "5 crystals/s", mouseX-30, mouseY, ConfigManager.getCounterColor(), true);
+        context.drawText(this.textRenderer, "5 crystals/s", ConfigManager.getX(), ConfigManager.getY(), ConfigManager.getCounterColor()+100000, true);
 
 
-        super.render(matrices, mouseX, mouseY, delta);
+        context.drawHorizontalLine(0, this.width, mouseY, Color.GREEN.getRGB());
+        context.drawVerticalLine(mouseX, 0, this.height, Color.GREEN.getRGB());
+
+
+        super.render(context, mouseX, mouseY, delta);
     }
 
     @Override
